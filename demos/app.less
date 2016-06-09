@@ -1,0 +1,51 @@
+body {
+    font-family: "Helvetica Neue",Helvetica,"STHeitiSC-Light","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+    text-align: center;
+    padding: 0 2em;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);// disable tap highlight on android
+}
+:focus {
+  outline: none;
+}
+:not(input):not(textarea):not([contenteditable]) {
+  -webkit-touch-callout: none;// 禁止长按呼出菜单
+  user-select: none;// 禁止文本选择
+}
+
+#app {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.view{
+    height: 100%;
+    background-color: #EFEFF4;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;// enhance ios scrolling
+
+    img{
+        width: 100%;
+        display: block;
+    }
+
+    ul{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li{
+            margin-bottom: .5em;
+            background-color: #fff;
+
+            p{
+                margin: 0;
+                line-height: 3em;
+            }
+        }
+    }
+}

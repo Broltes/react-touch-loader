@@ -1,0 +1,186 @@
+@bg-dark: #EFEFF4;
+@progress-color: #08BF06;
+
+// loading效果
+.ui-loading{
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1.5rem;
+    width: 1em;
+    height: 1em;
+    border: 2px solid darken(@bg-dark, 30%);
+    border-top-color: #fff;
+    border-radius: 100%;
+    animation: circle .8s infinite linear;
+
+    #ui-waiting &{
+        border: 2px solid #fff;
+        border-top-color: darken(@bg-dark, 30%);
+    }
+}
+@keyframes circle {
+    100% { transform: rotate(360deg); }
+}
+
+// 进度条加载效果
+@keyframes progressing {
+    0% { width: 0; }
+    10%{ width: 40%; }
+    20%{ width: 75%; }
+    30%{ width: 95%; }
+}
+@keyframes progressed {
+    0% {
+        opacity: 1;
+    }
+}
+.progress {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background-color: @progress-color;
+
+    &.on{
+        width: 99%;
+        animation: progressing 9s ease-out;
+    }
+
+    &.ed{
+        opacity: 0;
+        animation: progressed 1s;
+    }
+}
+
+.tloader{
+    position: relative;
+
+    @height: 3rem;
+    @fontSize: 11px;
+    @fontColor: darken(@bg-dark, 40%);// state hint
+    @btnColor: darken(@bg-dark, 60%);// load more
+
+    p{ margin: 0; }
+
+    // pull to refresh
+    .tloader-symbol{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+    	color: @fontColor;
+    	text-align: center;
+    	height: @height;
+        overflow: hidden;
+        will-change: height;
+        display: none;
+
+        .msg{
+            line-height: @height;
+            font-size: @fontSize;
+            display: none;
+
+            // arrow icon
+            i{
+                display: inline-block;
+                font-size: 2em;
+                margin-right: .6em;
+                vertical-align: middle;
+                height: 1em;
+                border-left: 1px solid;
+                position: relative;
+                transition: transform .3s ease;
+
+                &:before,&:after{
+                    content: '';
+                    position: absolute;
+                    font-size: .5em;
+                    width: 1em;
+                    bottom: 0px;
+                    border-top: 1px solid;
+                }
+                &:before{
+                    right: 1px;
+                    transform: rotate(50deg);
+                    transform-origin: right;
+                }
+                &:after{
+                    left: 0px;
+                    transform: rotate(-50deg);
+                    transform-origin: left;
+                }
+            }
+        }
+
+        .state-pulling&{
+            display: block;
+
+            .msg{
+                display: block;
+            }
+        }
+        .state-pulling.enough& {
+            display: block;
+
+            i{
+                transform: rotate(180deg);
+            }
+        }
+        .state-loading& {
+            display: block;
+
+            .tloader-loading{
+                display: block;
+            }
+        }
+    }
+
+    &.state-pulling{
+        overflow-y: hidden;// 拖拽时临时阻止ios的overscroll
+    }
+
+    .tloader-body{
+        .state-loading&{
+            transform: translate3d(0,@height,0);
+            transition: transform .3s;
+        }
+
+        .state-reset&{
+            transition: transform .3s;
+        }
+    }
+
+    // touch to load more
+    .tloader-footer{
+        .tloader-btn{
+            color: @btnColor;
+            font-size: .9em;
+            text-align: center;
+            line-height: 3rem;
+        }
+
+        &.footer-state-loading{
+            .tloader-btn{
+                display: none;
+            }
+            .tloader-loading{
+                display: block;
+            }
+        }
+    }
+
+    .tloader-loading{
+        display: none;
+        text-align: center;
+        line-height: @height;
+        font-size: @fontSize;
+        color: @fontColor;
+
+        .ui-loading{
+            font-size: 20px;
+            margin-right: .6rem;
+        }
+    }
+}
