@@ -48,3 +48,13 @@ gulp.task('demos-server', function () {
     });
 });
 gulp.task('demos', ['demos-clean', 'demos-build', 'demos-server']);
+
+
+// build tasks
+//
+var libDist = 'lib';
+gulp.task('build-less', function () {
+    gulp.src('src/*.less')
+        .pipe(gulp.dest(libDist));
+});
+gulp.task('build', ['build-less']);

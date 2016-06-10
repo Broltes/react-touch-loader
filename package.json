@@ -1,11 +1,12 @@
 {
   "name": "react-touch-loader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React component for web pull to refresh and load more",
-  "main": "./src/react-touch-loader.jsx",
+  "main": "./lib/react-touch-loader.js",
   "scripts": {
     "start": "node server.dev.js",
     "demos": "gulp demos",
+    "build": "gulp build && babel src --out-dir lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -49,5 +50,9 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
+  },
+  "dependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-plugin-transform-object-assign": "^6.8.0"
   }
 }
