@@ -51,22 +51,25 @@ var App = React.createClass({
         var list = [];
 
         if(listLen) {
-            list.push(<li key="t"><p>{refreshedAt.toString().substr(7)}</p></li>);
-
             for(var i = 0; i < listLen; i++){
                 list.push(
                     <li key={i}>
                         <p>{i}</p>
-                        <img src="cover.jpg"/>
                     </li>
                 );
             }
         }
 
         return (
-            <Tloader className="view" onRefresh={refresh} onLoadMore={loadMore} hasMore={hasMore} initializing={initializing}>
-                <ul>{list}</ul>
-            </Tloader>
+            <div className="view">
+                <h1>react-touch-loader {refreshedAt.toString().substr(7)}</h1>
+
+                <Tloader className="main" onRefresh={refresh} onLoadMore={loadMore} hasMore={hasMore} initializing={initializing}>
+                    <ul>{list}</ul>
+                </Tloader>
+
+                <h2><a href="https://github.com/Broltes/react-touch-loader">view source</a></h2>
+            </div>
         );
     }
 });

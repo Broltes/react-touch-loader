@@ -74,9 +74,15 @@ var App = React.createClass({
         }
 
         return (
-            <Tloader className="view" onRefresh={refresh} onLoadMore={loadMore} hasMore={hasMore} initializing={initializing}>
-                <ul>{list}</ul>
-            </Tloader>
+            <div className="view">
+                <h1>react-touch-loader</h1>
+
+                <Tloader className="main" onRefresh={refresh} onLoadMore={loadMore} hasMore={hasMore} initializing={initializing}>
+                    <ul>{list}</ul>
+                </Tloader>
+
+                <h2><a href="https://github.com/Broltes/react-touch-loader">view source</a></h2>
+            </div>
         );
     }
 });
