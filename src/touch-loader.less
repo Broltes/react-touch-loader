@@ -35,22 +35,24 @@
     }
 }
 .progress {
-    z-index: 1000;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 2px;
-    width: 100%;
-    background-color: @progress-color;
+    &:before{
+        content: "";
+        z-index: 1000;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 2px;
+        width: 100%;
+        background-color: @progress-color;
 
-    &.on{
-        width: 99%;
-        animation: progressing 9s ease-out;
-    }
-
-    &.ed{
-        opacity: 0;
-        animation: progressed 1s;
+        .on&{
+            width: 99%;
+            animation: progressing 9s ease-out;
+        }
+        .ed&{
+            opacity: 0;
+            animation: progressed 1s;
+        }
     }
 }
 
