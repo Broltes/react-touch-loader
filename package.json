@@ -1,6 +1,6 @@
 {
   "name": "react-touch-loader",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "React component for web pull to refresh and load more",
   "main": "./src/react-touch-loader.jsx",
   "scripts": {
