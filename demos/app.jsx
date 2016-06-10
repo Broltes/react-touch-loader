@@ -29,7 +29,7 @@ var App = React.createClass({
 
             this.setState({
                 listLen: l,
-                hasMore: l>0 && l<99
+                hasMore: l>0 && l<20
             });
 
             resolve();
