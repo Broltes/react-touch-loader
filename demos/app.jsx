@@ -40,7 +40,7 @@ var App = React.createClass({
             this.setState({
                 listLen: 9,
                 hasMore: 1,
-                initializing: 0
+                initializing: 2, // initialized
             });
         }.bind(this), 2e3);
     },

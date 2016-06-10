@@ -42,15 +42,13 @@
         top: 0;
         left: 0;
         height: 2px;
-        width: 100%;
         background-color: @progress-color;
+        width: 99%;
+        animation: progressing 9s ease-out;
 
-        .on&{
-            width: 99%;
-            animation: progressing 9s ease-out;
-        }
         .ed&{
             opacity: 0;
+            width: 100%;
             animation: progressed 1s;
         }
     }

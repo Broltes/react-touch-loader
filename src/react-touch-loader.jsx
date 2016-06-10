@@ -43,14 +43,14 @@ export default React.createClass({
     },
 
     touchStart: function(e) {
-        if(this.state.pullState == STATS.loading) return;
+        if(!this.props.onRefresh || this.state.pullState == STATS.loading) return;
         if(e.touches.length == 1) this._initialTouch = {
             clientY: e.touches[0].clientY,
             scrollTop: this.refs.panel.scrollTop
         };
     },
     touchMove: function(e) {
-        if(this.state.pullState == STATS.loading) return;
+        if(!this.props.onRefresh || this.state.pullState == STATS.loading) return;
         var scrollTop = this.refs.panel.scrollTop;
         var distance = this.calculateDistance(e.touches[0]);
 
@@ -66,7 +66,7 @@ export default React.createClass({
         }
     },
     touchEnd: function() {
-        if(this.state.pullState == STATS.loading) return;
+        if(!this.props.onRefresh || this.state.pullState == STATS.loading) return;
         var endState = {
             pullState: STATS.reset,
             pullHeight: 0
@@ -117,9 +117,12 @@ export default React.createClass({
             WebkitTransform: `translate3d(0,${pullHeight}px,0)`
         } : null;
 
+        var progressClassName = '';
+        if(initializing > 0) progressClassName += ' progress';
+        if(initializing > 1) progressClassName += ' ed';
+
         return (
-            <div ref="panel" className={'tloader state-' + pullState + ' ' + className } onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd}>
-                <p className={'progress ' + (initializing ? 'on' : 'ed')}/>
+            <div ref="panel" className={'tloader state-' + pullState + ' ' + className + progressClassName} onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd}>
                 <div className="tloader-symbol">
                     <p className="msg"><i/>{msg}</p>
                     <p className="tloader-loading"><i className="ui-loading"/>正在刷新...</p>

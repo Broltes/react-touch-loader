@@ -5,6 +5,27 @@ React component for web pull to refresh and load more
 
 ## Live demo
 [https://broltes.github.io/tloader](https://broltes.github.io/tloader)
+## All props
+
+#### initializing
+- 0: do not display the progress bar
+- 1: start progress bar
+- 2: progress to end
+
+#### onRefresh
+- function (resove)
+- null: disable the pull to refresh action
+
+#### hasMore
+- 0: hide the load more footer (disable load more)
+- 1: show the load more footer
+
+#### onLoadMore
+- function (resove)
+
+#### className
+- custom css class
+
 
 ## Usage
 ```js
@@ -50,7 +71,7 @@ var App = React.createClass({
             this.setState({
                 listLen: 9,
                 hasMore: 1,
-                initializing: 0
+                initializing: 2, // initialized
             });
         }.bind(this), 2e3);
     },
@@ -61,13 +82,10 @@ var App = React.createClass({
         var list = [];
 
         if(listLen) {
-            list.push(<li key="t"><p>{refreshedAt.toString().substr(7)}</p></li>);
-
             for(var i = 0; i < listLen; i++){
                 list.push(
                     <li key={i}>
                         <p>{i}</p>
-                        <img src="cover.jpg"/>
                     </li>
                 );
             }
@@ -75,7 +93,7 @@ var App = React.createClass({
 
         return (
             <div className="view">
-                <h1>react-touch-loader</h1>
+                <h1>react-touch-loader {refreshedAt.toString().substr(7)}</h1>
 
                 <Tloader className="main" onRefresh={refresh} onLoadMore={loadMore} hasMore={hasMore} initializing={initializing}>
                     <ul>{list}</ul>
