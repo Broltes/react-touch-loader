@@ -2,10 +2,14 @@ import React from 'react';
 import './touch-loader.less';
 
 const STATS = {
+    init: '',
     pulling: 'pulling',
     enough: 'pulling enough',
-    loading: 'loading',
-    reset: 'reset'
+    refreshing: 'refreshing',
+    refreshed: 'refreshed',
+    reset: 'reset',
+
+    loading: 'loading',// loading more
 };
 
 // pull to refresh
@@ -13,9 +17,8 @@ const STATS = {
 export default React.createClass({
     getInitialState: function() {
         return {
-            pullState: '',
+            loaderState: STATS.init,
             pullHeight: 0,
-            loadMoreState: ''
         };
     },
     getDefaultProps: function () {
@@ -41,16 +44,19 @@ export default React.createClass({
 
         return c * Math.sin(t / d * (Math.PI / 2)) + b;
     },
+    canRefresh: function() {
+        return this.props.onRefresh && [STATS.refreshing, STATS.loading].indexOf(this.state.loaderState) < 0;
+    },
 
     touchStart: function(e) {
-        if(!this.props.onRefresh || this.state.pullState == STATS.loading) return;
+        if(!this.canRefresh()) return;
         if(e.touches.length == 1) this._initialTouch = {
             clientY: e.touches[0].clientY,
             scrollTop: this.refs.panel.scrollTop
         };
     },
     touchMove: function(e) {
-        if(!this.props.onRefresh || this.state.pullState == STATS.loading) return;
+        if(!this.canRefresh()) return;
         var scrollTop = this.refs.panel.scrollTop;
         var distance = this.calculateDistance(e.touches[0]);
 
@@ -60,36 +66,44 @@ export default React.createClass({
             if(pullHeight) e.preventDefault();// 减弱滚动
 
             this.setState({
-                pullState: pullHeight > this.props.distanceToRefresh ? STATS.enough : STATS.pulling,
+                loaderState: pullHeight > this.props.distanceToRefresh ? STATS.enough : STATS.pulling,
                 pullHeight: pullHeight
             });
         }
     },
     touchEnd: function() {
-        if(!this.props.onRefresh || this.state.pullState == STATS.loading) return;
+        if(!this.canRefresh()) return;
         var endState = {
-            pullState: STATS.reset,
+            loaderState: STATS.reset,
             pullHeight: 0
         };
 
-        if (this.state.pullState == STATS.enough) {
-            // loading
+        if (this.state.loaderState == STATS.enough) {
+            // refreshing
             this.setState({
-                pullState: STATS.loading,
-                pullHeight: ''
+                loaderState: STATS.refreshing,
+                pullHeight: 0
             });
+
             // trigger refresh action
             this.props.onRefresh(function(){
-                // reset
-                this.setState(endState);
+                // resove
+                this.setState({
+                    loaderState: STATS.refreshed,
+                    pullHeight: 0
+                });
+            }.bind(this), function(){
+                // reject
+                this.setState(endState);// reset
             }.bind(this));
-        }else this.setState(endState);
+        }else this.setState(endState);// reset
     },
+
     loadMore: function(){
-        this.setState({ loadMoreState:  STATS.loading });
+        this.setState({ loaderState:  STATS.loading });
         this.props.onLoadMore(function(){
-            // reset
-            this.setState({loadMoreState: ''});
+            // resolve
+            this.setState({loaderState: STATS.init});
         }.bind(this));
     },
     render: function(){
@@ -100,16 +114,14 @@ export default React.createClass({
         } = this.props;
         let {
             loadMoreState,
-            pullState,
+            loaderState,
             pullHeight
         } = this.state;
 
-        let msg = pullState == STATS.enough ? '松开刷新' : '下拉刷新';
-
         let footer = hasMore ? (
-            <div className={'tloader-footer footer-state-' + loadMoreState}>
-                <p className="tloader-btn" onClick={this.loadMore}>加载更多</p>
-                <p className="tloader-loading"><i className="ui-loading"/>正在加载...</p>
+            <div className="tloader-footer">
+                <p className="tloader-btn" onClick={this.loadMore}/>
+                <p className="tloader-loading"><i className="ui-loading"/></p>
             </div>
         ) : null;
 
@@ -122,10 +134,10 @@ export default React.createClass({
         if(initializing > 1) progressClassName += ' ed';
 
         return (
-            <div ref="panel" className={'tloader state-' + pullState + ' ' + className + progressClassName} onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd}>
+            <div ref="panel" className={'tloader state-' + loaderState + ' ' + className + progressClassName} onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd}>
                 <div className="tloader-symbol">
-                    <p className="msg"><i/>{msg}</p>
-                    <p className="tloader-loading"><i className="ui-loading"/>正在刷新...</p>
+                    <p className="tloader-msg"><i/></p>
+                    <p className="tloader-loading"><i className="ui-loading"/></p>
                 </div>
                 <div className="tloader-body" style={style}>{this.props.children}</div>
                 {footer}

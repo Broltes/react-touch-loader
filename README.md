@@ -29,7 +29,7 @@ import Tloader from 'react-touch-loader';
 - 2: progress to end
 
 #### onRefresh
-- function (resove)
+- function (resove, reject)
 - null: disable the pull to refresh action
 
 #### hasMore
@@ -42,6 +42,48 @@ import Tloader from 'react-touch-loader';
 #### className
 - custom css class
 
+### Localization
+The text is defined in css(less):
+
+```less
+@pullingMsg: '下拉刷新';
+@pullingEnoughMsg: '松开刷新';
+@refreshingMsg: '正在刷新...';
+@refreshedMsg: '刷新成功';
+@loadingMsg: '正在加载...';
+@btnLoadMore: '加载更多';
+
+.tloader-msg:after{
+    .state-pulling &{
+        content: @pullingMsg
+    }
+
+    .state-pulling.enough &{
+        content: @pullingEnoughMsg;
+    }
+
+    .state-refreshed &{
+        content: @refreshedMsg;
+    }
+}
+.tloader-loading:after{
+    content: @loadingMsg;
+
+    .tloader-symbol &{
+        content: @refreshingMsg;
+    }
+}
+.tloader-btn:after{
+    content: @btnLoadMore;
+}
+```
+
+So you can easily overwrite the defaults by css like this:
+```less
+.tloader .tloader-btn:after{
+    content: 'Load More';
+}
+```
 
 ## Example
 [check code from demos/app.jsx](https://github.com/Broltes/react-touch-loader/blob/master/demos/app.jsx)

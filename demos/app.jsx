@@ -7,14 +7,17 @@ import Tloader from 'react-touch-loader';
 var App = React.createClass({
     getInitialState: function() {
         return {
+            canRefreshResolve: 1,
             listLen: 0,
             hasMore: 0,
             initializing: 1,
             refreshedAt: Date.now()
         };
     },
-    refresh: function(resolve) {
+    refresh: function(resolve, reject) {
         setTimeout(function(){
+            if(!this.state.canRefreshResolve) return reject();
+
             this.setState({
                 listLen: 9,
                 hasMore: 1,
@@ -44,10 +47,13 @@ var App = React.createClass({
             });
         }.bind(this), 2e3);
     },
+    toggleCanReresh: function() {
+        this.setState({ canRefreshResolve: !this.state.canRefreshResolve});
+    },
 
     render: function(){
-        var { listLen, hasMore, initializing, refreshedAt } = this.state;
-        var { refresh, loadMore } = this;
+        var { listLen, hasMore, initializing, refreshedAt, canRefreshResolve } = this.state;
+        var { refresh, loadMore, toggleCanReresh } = this;
         var list = [];
 
         if(listLen) {
@@ -68,7 +74,10 @@ var App = React.createClass({
                     <ul>{list}</ul>
                 </Tloader>
 
-                <h2><a href="https://github.com/Broltes/react-touch-loader">view source</a></h2>
+                <h2>
+                    <a href="https://github.com/Broltes/react-touch-loader">view source</a>
+                    <labe>can refresh resolve<input onChange={toggleCanReresh} type="checkbox" checked={canRefreshResolve}/></labe>
+                </h2>
             </div>
         );
     }
