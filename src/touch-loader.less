@@ -114,6 +114,7 @@
         // √ icon
         i{
             display: inline-block;
+            box-sizing: content-box;
             vertical-align: middle;
             margin-right: 10px;
             font-size: 20px;
@@ -140,19 +141,25 @@
 
 .tloader-body{
     transform: translate3d(0,0,0);// make over the msg-refreshed
+    @transition-duration: .2s;
 
     .state-refreshing &{
         transform: translate3d(0,@height,0);
-        transition: transform .3s;
+        transition: transform @transition-duration;
     }
 
     .state-refreshed &{
-        transition: transform .3s .6s;
+        // handle resolve within .3s
+        animation: refreshed @transition-duration*2;
     }
 
     .state-reset &{
-        transition: transform .3s;
+        transition: transform @transition-duration;
     }
+}
+@keyframes refreshed {
+    0%{transform: translate3d(0,@height,0);}
+    50%{transform: translate3d(0,@height,0);}
 }
 
 // touch to load more
