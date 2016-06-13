@@ -19,6 +19,7 @@ export default React.createClass({
         return {
             loaderState: STATS.init,
             pullHeight: 0,
+            progressed: 0
         };
     },
     getDefaultProps: function () {
@@ -106,6 +107,20 @@ export default React.createClass({
             this.setState({loaderState: STATS.init});
         }.bind(this));
     },
+
+    componentWillReceiveProps: function(nextProps) {
+        if(nextProps.initializing < 2) this.setState({
+            progressed: 0, // reset progress animation state
+        });
+    },
+    animationEnd: function(){
+        var newState = {};
+
+        if(this.state.loaderState == STATS.refreshed) newState.loaderState = STATS.init;
+        if(this.props.initializing > 1) newState.progressed = 1;
+
+        this.setState(newState);
+    },
     render: function(){
         const {
             className,
@@ -115,7 +130,8 @@ export default React.createClass({
         let {
             loadMoreState,
             loaderState,
-            pullHeight
+            pullHeight,
+            progressed
         } = this.state;
 
         let footer = hasMore ? (
@@ -130,11 +146,13 @@ export default React.createClass({
         } : null;
 
         var progressClassName = '';
-        if(initializing > 0) progressClassName += ' progress';
-        if(initializing > 1) progressClassName += ' ed';
+        if(!progressed){
+            if(initializing > 0) progressClassName += ' progress';
+            if(initializing > 1) progressClassName += ' ed';
+        }
 
         return (
-            <div ref="panel" className={'tloader state-' + loaderState + ' ' + className + progressClassName} onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd}>
+            <div ref="panel" className={'tloader state-' + loaderState + ' ' + className + progressClassName} onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd} onAnimationEnd={this.animationEnd}>
                 <div className="tloader-symbol">
                     <p className="tloader-msg"><i/></p>
                     <p className="tloader-loading"><i className="ui-loading"/></p>
