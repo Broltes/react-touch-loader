@@ -31,7 +31,6 @@ gulp.task("demos-build", function(callback) {
     ].concat(config.plugins.slice(-1));
 
     delete config.devtool;
-    module.exports = config;
 
     webpack(config, function(err, stats) {
         if (err) throw new err;
