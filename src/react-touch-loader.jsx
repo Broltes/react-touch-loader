@@ -63,6 +63,11 @@ export default React.createClass({
 
         if(distance > 0 && scrollTop <= 0){
             var pullDistance = distance - this._initialTouch.scrollTop;
+            if(pullDistance < 0) {
+                // 修复webview滚动过程中touchstart时计算panel.scrollTop不准
+                pullDistance = 0;
+                this._initialTouch.scrollTop = distance;
+            }
             var pullHeight = this.easing(pullDistance);
             if(pullHeight) e.preventDefault();// 减弱滚动
 
