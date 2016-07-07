@@ -9,7 +9,7 @@ const STATS = {
     refreshed: 'refreshed',
     reset: 'reset',
 
-    loading: 'loading',// loading more
+    loading: 'loading'// loading more
 };
 
 // pull to refresh
@@ -24,7 +24,7 @@ export default React.createClass({
     },
     getDefaultProps: function () {
         return {
-            distanceToRefresh: 60,
+            distanceToRefresh: 60
         };
     },
     setInitialTouch: function(touch) {
@@ -115,7 +115,7 @@ export default React.createClass({
 
     componentWillReceiveProps: function(nextProps) {
         if(nextProps.initializing < 2) this.setState({
-            progressed: 0, // reset progress animation state
+            progressed: 0 // reset progress animation state
         });
     },
     animationEnd: function(){
@@ -130,7 +130,7 @@ export default React.createClass({
         const {
             className,
             hasMore,
-            initializing,
+            initializing
         } = this.props;
         let {
             loadMoreState,
@@ -152,7 +152,7 @@ export default React.createClass({
 
         var progressClassName = '';
         if(!progressed){
-            if(initializing > 0) progressClassName += ' progress';
+            if(initializing > 0) progressClassName += ' tloader-progress';
             if(initializing > 1) progressClassName += ' ed';
         }
 

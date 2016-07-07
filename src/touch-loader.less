@@ -219,18 +219,18 @@
 }
 
 // 进度条加载效果
-@keyframes progressing {
+@keyframes tloader-progressing {
     0% { width: 0; }
     10%{ width: 40%; }
     20%{ width: 75%; }
     30%{ width: 95%; }
 }
-@keyframes progressed {
+@keyframes tloader-progressed {
     0% {
         opacity: 1;
     }
 }
-.progress {
+.tloader-progress {
     position: relative;
 
     &:before{
@@ -242,12 +242,12 @@
         height: 2px;
         background-color: @progress-color;
         width: 99%;
-        animation: progressing 9s ease-out;
+        animation: tloader-progressing 9s ease-out;
 
         .ed&{
             opacity: 0;
             width: 100%;
-            animation: progressed 1s;
+            animation: tloader-progressed 1s;
         }
     }
 }
