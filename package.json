@@ -4,9 +4,11 @@
   "description": "React component for web pull to refresh and load more",
   "main": "./lib/react-touch-loader.js",
   "scripts": {
-    "start": "node server.dev.js",
-    "demos": "gulp demos",
-    "build": "gulp build && babel src --out-dir lib",
+    "start": "webpack-dev-server --hot --config webpack.dev.config.js",
+    "build": "babel src --out-dir lib && cp src/*.less lib/",
+    "demos": "webpack -p --optimize-dedupe --progress --config webpack.demos.config.js",
+    "clean:demos": "rm -rf ../github.io/tloader",
+    "clean:lib": "rm -rf lib/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -37,10 +39,7 @@
     "babel-preset-es2015": "~6.9.0",
     "babel-preset-react": "~6.5.0",
     "css-loader": "~0.23.1",
-    "del": "^2.2.0",
     "extract-text-webpack-plugin": "^1.0.1",
-    "gulp": "^3.9.1",
-    "gulp-connect": "^4.0.0",
     "html-webpack-plugin": "^2.19.0",
     "less-loader": "^2.2.3",
     "postcss-loader": "^0.9.1",

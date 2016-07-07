@@ -87,10 +87,3 @@ So you can easily overwrite the defaults by css like this:
 
 ## Example
 [check code from demos/app.jsx](https://github.com/Broltes/react-touch-loader/blob/master/demos/app.jsx)
-
-
-## Development
-modify the `entry` in `webpack.dev.config.js` to yours
-```js
-'webpack-dev-server/client?http://dev.broltes.com:' + devport,
-```
