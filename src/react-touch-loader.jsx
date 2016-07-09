@@ -141,8 +141,8 @@ export default React.createClass({
 
         let footer = hasMore ? (
             <div className="tloader-footer">
-                <p className="tloader-btn" onClick={this.loadMore}/>
-                <p className="tloader-loading"><i className="ui-loading"/></p>
+                <div className="tloader-btn" onClick={this.loadMore}/>
+                <div className="tloader-loading"><i className="ui-loading"/></div>
             </div>
         ) : null;
 
@@ -159,8 +159,8 @@ export default React.createClass({
         return (
             <div ref="panel" className={'tloader state-' + loaderState + ' ' + className + progressClassName} onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd} onAnimationEnd={this.animationEnd}>
                 <div className="tloader-symbol">
-                    <p className="tloader-msg"><i/></p>
-                    <p className="tloader-loading"><i className="ui-loading"/></p>
+                    <div className="tloader-msg"><i/></div>
+                    <div className="tloader-loading"><i className="ui-loading"/></div>
                 </div>
                 <div className="tloader-body" style={style}>{this.props.children}</div>
                 {footer}
