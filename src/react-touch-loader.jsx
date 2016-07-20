@@ -132,14 +132,13 @@ export default React.createClass({
             hasMore,
             initializing
         } = this.props;
-        let {
-            loadMoreState,
+        const {
             loaderState,
             pullHeight,
             progressed
         } = this.state;
 
-        let footer = hasMore ? (
+        var footer = hasMore ? (
             <div className="tloader-footer">
                 <div className="tloader-btn" onClick={this.loadMore}/>
                 <div className="tloader-loading"><i className="ui-loading"/></div>
