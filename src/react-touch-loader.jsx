@@ -156,7 +156,13 @@ export default React.createClass({
         }
 
         return (
-            <div ref="panel" className={'tloader state-' + loaderState + ' ' + className + progressClassName} onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd} onAnimationEnd={this.animationEnd}>
+            <div ref="panel"
+                className={`tloader state-${loaderState} ${className}${progressClassName}`}
+                onTouchStart={this.touchStart}
+                onTouchMove={this.touchMove}
+                onTouchEnd={this.touchEnd}
+                onAnimationEnd={this.animationEnd}>
+
                 <div className="tloader-symbol">
                     <div className="tloader-msg"><i/></div>
                     <div className="tloader-loading"><i className="ui-loading"/></div>

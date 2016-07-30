@@ -30,7 +30,7 @@ import Tloader from 'react-touch-loader';
 
 #### onRefresh
 - function (resove, reject)
-- null: disable the pull to refresh action
+- undefined: disable the pull to refresh action
 
 #### hasMore
 - 0: hide the load more footer (disable load more)
