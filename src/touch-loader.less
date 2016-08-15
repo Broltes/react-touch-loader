@@ -12,11 +12,10 @@
 @refreshedMsg: '刷新成功';
 @loadingMsg: '正在加载...';
 @btnLoadMore: '加载更多';
+@transition-duration: .2s;
 
 .tloader-msg:after{
-    .state-pulling &{
-        content: @pullingMsg
-    }
+    content: @pullingMsg;
 
     .state-pulling.enough &{
         content: @pullingEnoughMsg;
@@ -56,19 +55,25 @@
 	text-align: center;
 	height: @height;
     overflow: hidden;
+
+    // 隐藏刷新提示标签
+    .state- &, .state-reset &{
+        height: 0;
+    }
+    // 延迟至reset完成，隐藏刷新提示标签
+    .state-reset &{
+        transition: height 0s @transition-duration;
+    }
 }
 
 // 拖拽提示信息
 .tloader-msg{
     line-height: @height;
     font-size: @fontSize;
-    opacity: 0;
 
-    .state-pulling &{
-        opacity: 1;
-
+    i{
         // arrow down icon
-        i{
+        .state-pulling &, .state-reset &{
             display: inline-block;
             font-size: 2em;
             margin-right: .6em;
@@ -78,7 +83,7 @@
             position: relative;
             transition: transform .3s ease;
 
-            &:before,&:after{
+            &:before, &:after{
                 content: '';
                 position: absolute;
                 font-size: .5em;
@@ -97,14 +102,18 @@
                 transform-origin: left;
             }
         }
-    }
-    .state-pulling.enough &{
+
         // arrow up
-        i{
+        .state-pulling.enough &{
             transform: rotate(180deg);
         }
     }
 
+    // 刷新中，隐藏提示信息 以切换至loading动画
+    .state-refreshing &{
+        height: 0;
+        opacity: 0;
+    }
     // 刷新成功提示消息
     .state-refreshed &{
         opacity: 1;
@@ -142,7 +151,6 @@
     // active the scrollbar of ios
     margin-top: -1px;
     padding-top: 1px;
-    @transition-duration: .2s;
 
     .state-refreshing &{
         transform: translate3d(0,@height,0);

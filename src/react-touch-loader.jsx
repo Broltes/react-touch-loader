@@ -15,28 +15,28 @@ const STATS = {
 // pull to refresh
 // tap bottom to load more
 export default React.createClass({
-    getInitialState: function() {
+    getInitialState() {
         return {
             loaderState: STATS.init,
             pullHeight: 0,
             progressed: 0
         };
     },
-    getDefaultProps: function () {
+    getDefaultProps () {
         return {
             distanceToRefresh: 60
         };
     },
-    setInitialTouch: function(touch) {
+    setInitialTouch(touch) {
         this._initialTouch = {
             clientY: touch.clientY
         };
     },
-    calculateDistance: function (touch) {
+    calculateDistance (touch) {
         return touch.clientY - this._initialTouch.clientY;
     },
     // 拖拽的缓动公式 - easeOutSine
-    easing: function (distance) {
+    easing (distance) {
         // t: current time, b: begInnIng value, c: change In value, d: duration
         var t = distance;
         var b = 0;
@@ -45,18 +45,18 @@ export default React.createClass({
 
         return c * Math.sin(t / d * (Math.PI / 2)) + b;
     },
-    canRefresh: function() {
+    canRefresh() {
         return this.props.onRefresh && [STATS.refreshing, STATS.loading].indexOf(this.state.loaderState) < 0;
     },
 
-    touchStart: function(e) {
+    touchStart(e) {
         if(!this.canRefresh()) return;
         if(e.touches.length == 1) this._initialTouch = {
             clientY: e.touches[0].clientY,
             scrollTop: this.refs.panel.scrollTop
         };
     },
-    touchMove: function(e) {
+    touchMove(e) {
         if(!this.canRefresh()) return;
         var scrollTop = this.refs.panel.scrollTop;
         var distance = this.calculateDistance(e.touches[0]);
@@ -77,7 +77,7 @@ export default React.createClass({
             });
         }
     },
-    touchEnd: function() {
+    touchEnd() {
         if(!this.canRefresh()) return;
         var endState = {
             loaderState: STATS.reset,
@@ -105,7 +105,7 @@ export default React.createClass({
         }else this.setState(endState);// reset
     },
 
-    loadMore: function(){
+    loadMore(){
         this.setState({ loaderState:  STATS.loading });
         this.props.onLoadMore(function(){
             // resolve
@@ -113,12 +113,12 @@ export default React.createClass({
         }.bind(this));
     },
 
-    componentWillReceiveProps: function(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(nextProps.initializing < 2) this.setState({
             progressed: 0 // reset progress animation state
         });
     },
-    animationEnd: function(){
+    animationEnd(){
         var newState = {};
 
         if(this.state.loaderState == STATS.refreshed) newState.loaderState = STATS.init;
@@ -126,7 +126,7 @@ export default React.createClass({
 
         this.setState(newState);
     },
-    render: function(){
+    render(){
         const {
             className,
             hasMore,
