@@ -1,5 +1,5 @@
 # react-touch-loader
-React component for web pull to refresh and load more
+React component for web pull to refresh and load more, 下拉刷新, 加载更多
 
 ## Live demo
 [https://broltes.github.io/tloader](https://broltes.github.io/tloader)

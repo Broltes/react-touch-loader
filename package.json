@@ -1,7 +1,7 @@
 {
   "name": "react-touch-loader",
   "version": "1.0.2",
-  "description": "React component for web pull to refresh and load more",
+  "description": "React component for web pull to refresh and load more, 下拉刷新, 加载更多",
   "main": "./lib/react-touch-loader.js",
   "scripts": {
     "dev": "webpack-dev-server --hot --config webpack.dev.config.js",
