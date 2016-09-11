@@ -20,6 +20,8 @@ import Tloader from 'react-touch-loader';
     <ul><li>some items</li></ul>
 </Tloader>
 ```
+## Less needed
+react-touch-loader will automaticly import the less file, please config your webpack for less.
 
 ## All props
 
