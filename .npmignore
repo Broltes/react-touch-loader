@@ -1,4 +1,3 @@
 demos
-gulpfile.js
-server.dev.js
 webpack.dev.config.js
+webpack.demos.config.js
