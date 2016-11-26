@@ -15,7 +15,7 @@ var App = React.createClass({
         };
     },
     refresh: function(resolve, reject) {
-        setTimeout(function(){
+        setTimeout(() => {
             if(!this.state.canRefreshResolve) return reject();
 
             this.setState({
@@ -24,28 +24,28 @@ var App = React.createClass({
                 refreshedAt: Date.now()
             });
             resolve();
-        }.bind(this), 2e3);
+        }, 2e3);
     },
     loadMore: function(resolve){
-        setTimeout(function() {
+        setTimeout(() => {
             var l = this.state.listLen + 9;
 
             this.setState({
                 listLen: l,
-                hasMore: l>0 && l<20
+                hasMore: l>0 && l<50
             });
 
             resolve();
-        }.bind(this), 2e3);
+        }, 2e3);
     },
     componentDidMount: function() {
-        setTimeout(function(){
+        setTimeout(() => {
             this.setState({
                 listLen: 9,
                 hasMore: 1,
                 initializing: 2, // initialized
             });
-        }.bind(this), 2e3);
+        }, 2e3);
     },
     toggleCanReresh: function() {
         this.setState({ canRefreshResolve: !this.state.canRefreshResolve});

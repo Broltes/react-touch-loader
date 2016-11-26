@@ -11,7 +11,7 @@
 @refreshingMsg: '正在刷新...';
 @refreshedMsg: '刷新成功';
 @loadingMsg: '正在加载...';
-@btnLoadMore: '加载更多';
+@btnLoadMore: '点击加载更多';
 @transition-duration: .2s;
 
 .tloader-msg:after{
@@ -63,6 +63,11 @@
     // 延迟至reset完成，隐藏刷新提示标签
     .state-reset &{
         transition: height 0s @transition-duration;
+    }
+
+    // hide when loading more
+    .state-loading &{
+        display: none;
     }
 }
 

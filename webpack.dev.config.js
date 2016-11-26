@@ -1,7 +1,7 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
-var devport = 6002;
+var devport = 8080;
 
 module.exports = {
     context: path.resolve('demos'),
