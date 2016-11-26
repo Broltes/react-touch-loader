@@ -24,7 +24,8 @@ export default React.createClass({
     },
     getDefaultProps () {
         return {
-            distanceToRefresh: 60
+            distanceToRefresh: 60,
+            autoLoadMore: 1
         };
     },
     setInitialTouch(touch) {
@@ -92,25 +93,37 @@ export default React.createClass({
             });
 
             // trigger refresh action
-            this.props.onRefresh(function(){
+            this.props.onRefresh(() => {
                 // resove
                 this.setState({
                     loaderState: STATS.refreshed,
                     pullHeight: 0
                 });
-            }.bind(this), function(){
+            }, () => {
                 // reject
                 this.setState(endState);// reset
-            }.bind(this));
+            });
         }else this.setState(endState);// reset
     },
 
     loadMore(){
         this.setState({ loaderState:  STATS.loading });
-        this.props.onLoadMore(function(){
+        this.props.onLoadMore(() => {
             // resolve
             this.setState({loaderState: STATS.init});
-        }.bind(this));
+        });
+    },
+    onScroll(e) {
+        if(
+            this.props.autoLoadMore &&
+            this.props.hasMore &&
+            this.state.loaderState != STATS.loading
+        ) {
+            let panel = e.currentTarget;
+            let scrollBottom = panel.scrollHeight - panel.clientHeight - panel.scrollTop;
+
+            if(scrollBottom < 5) this.loadMore();
+        }
     },
 
     componentWillReceiveProps(nextProps) {
@@ -158,6 +171,7 @@ export default React.createClass({
         return (
             <div ref="panel"
                 className={`tloader state-${loaderState} ${className}${progressClassName}`}
+                onScroll={this.onScroll}
                 onTouchStart={this.touchStart}
                 onTouchMove={this.touchMove}
                 onTouchEnd={this.touchEnd}
