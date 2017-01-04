@@ -15,6 +15,7 @@ import Tloader from 'react-touch-loader';
     onRefresh={handleRefresh}
     hasMore={hasMore}
     onLoadMore={handleLoadMore}
+    autoLoadMore={autoLoadMore}
     className="some class">
 
     <ul><li>some items</li></ul>
@@ -35,11 +36,15 @@ react-touch-loader will automaticly import the less file, please config your web
 - undefined: disable the pull to refresh action
 
 #### hasMore
-- 0: hide the load more footer (disable load more)
-- 1: show the load more footer
+- false: hide the load more footer (disable load more)
+- true: show the load more footer
 
 #### onLoadMore
 - function (resove)
+
+#### autoLoadMore
+- true: automaticly load more on scroll to bottom, default
+- false
 
 #### className
 - custom css class
