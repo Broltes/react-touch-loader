@@ -16,13 +16,23 @@ import Tloader from 'react-touch-loader';
     hasMore={hasMore}
     onLoadMore={handleLoadMore}
     autoLoadMore={autoLoadMore}
-    className="some class">
+    className="tloader some class">
 
     <ul><li>some items</li></ul>
 </Tloader>
 ```
 ## Less needed
 react-touch-loader will automaticly import the less file, please config your webpack for less.
+
+## Container layout
+You'd better set a className for Tloader, then give it a height make it as scroll area through css:
+```
+.tloader{
+    height: 500px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+```
 
 ## All props
 
