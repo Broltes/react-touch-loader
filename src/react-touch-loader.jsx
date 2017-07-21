@@ -14,28 +14,24 @@ const STATS = {
 
 // pull to refresh
 // tap bottom to load more
-export default React.createClass({
-  getInitialState() {
-    return {
+class Tloader extends React.Component {
+  constructor() {
+    super();
+    this.state = {
       loaderState: STATS.init,
       pullHeight: 0,
       progressed: 0
     };
-  },
-  getDefaultProps() {
-    return {
-      distanceToRefresh: 60,
-      autoLoadMore: 1
-    };
-  },
+  }
+
   setInitialTouch(touch) {
     this._initialTouch = {
       clientY: touch.clientY
     };
-  },
+  }
   calculateDistance(touch) {
     return touch.clientY - this._initialTouch.clientY;
-  },
+  }
   // 拖拽的缓动公式 - easeOutSine
   easing(distance) {
     // t: current time, b: begInnIng value, c: change In value, d: duration
@@ -45,10 +41,10 @@ export default React.createClass({
     var c = d / 2.5; // 提示标签最大有效拖拽距离
 
     return c * Math.sin(t / d * (Math.PI / 2)) + b;
-  },
+  }
   canRefresh() {
     return this.props.onRefresh && [STATS.refreshing, STATS.loading].indexOf(this.state.loaderState) < 0;
-  },
+  }
 
   touchStart(e) {
     if (!this.canRefresh()) return;
@@ -56,7 +52,7 @@ export default React.createClass({
       clientY: e.touches[0].clientY,
       scrollTop: this.refs.panel.scrollTop
     };
-  },
+  }
   touchMove(e) {
     if (!this.canRefresh()) return;
     var scrollTop = this.refs.panel.scrollTop;
@@ -77,7 +73,7 @@ export default React.createClass({
         pullHeight: pullHeight
       });
     }
-  },
+  }
   touchEnd() {
     if (!this.canRefresh()) return;
     var endState = {
@@ -104,7 +100,7 @@ export default React.createClass({
         this.setState(endState);// reset
       });
     } else this.setState(endState);// reset
-  },
+  }
 
   loadMore() {
     this.setState({ loaderState: STATS.loading });
@@ -112,7 +108,7 @@ export default React.createClass({
       // resolve
       this.setState({ loaderState: STATS.init });
     });
-  },
+  }
   onScroll(e) {
     if (
       this.props.autoLoadMore &&
@@ -124,13 +120,13 @@ export default React.createClass({
 
       if (scrollBottom < 5) this.loadMore();
     }
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.initializing < 2) this.setState({
       progressed: 0 // reset progress animation state
     });
-  },
+  }
   animationEnd() {
     var newState = {};
 
@@ -138,7 +134,7 @@ export default React.createClass({
     if (this.props.initializing > 1) newState.progressed = 1;
 
     this.setState(newState);
-  },
+  }
   render() {
     const {
             className,
@@ -171,11 +167,11 @@ export default React.createClass({
     return (
       <div ref="panel"
         className={`tloader state-${loaderState} ${className}${progressClassName}`}
-        onScroll={this.onScroll}
-        onTouchStart={this.touchStart}
-        onTouchMove={this.touchMove}
-        onTouchEnd={this.touchEnd}
-        onAnimationEnd={this.animationEnd}>
+        onScroll={e => this.onScroll(e)}
+        onTouchStart={e => this.touchStart(e)}
+        onTouchMove={e => this.touchMove(e)}
+        onTouchEnd={e => this.touchEnd(e)}
+        onAnimationEnd={e => this.animationEnd(e)}>
 
         <div className="tloader-symbol">
           <div className="tloader-msg"><i /></div>
@@ -186,4 +182,11 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
+
+Tloader.defaultProps = {
+  distanceToRefresh: 60,
+  autoLoadMore: 1
+};
+
+export default Tloader;

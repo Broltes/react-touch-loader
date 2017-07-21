@@ -4,17 +4,19 @@ import './app.less';
 
 import Tloader from 'react-touch-loader';
 
-var App = React.createClass({
-  getInitialState: function () {
-    return {
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
       canRefreshResolve: 1,
       listLen: 0,
       hasMore: 0,
       initializing: 1,
       refreshedAt: Date.now()
-    };
-  },
-  refresh: function (resolve, reject) {
+    }
+  }
+
+  refresh (resolve, reject) {
     setTimeout(() => {
       if (!this.state.canRefreshResolve) return reject();
 
@@ -25,8 +27,8 @@ var App = React.createClass({
       });
       resolve();
     }, 2e3);
-  },
-  loadMore: function (resolve) {
+  }
+  loadMore (resolve) {
     setTimeout(() => {
       var l = this.state.listLen + 9;
 
@@ -37,8 +39,8 @@ var App = React.createClass({
 
       resolve();
     }, 2e3);
-  },
-  componentDidMount: function () {
+  }
+  componentDidMount () {
     setTimeout(() => {
       this.setState({
         listLen: 9,
@@ -46,12 +48,12 @@ var App = React.createClass({
         initializing: 2, // initialized
       });
     }, 2e3);
-  },
-  toggleCanRefresh: function () {
+  }
+  toggleCanRefresh () {
     this.setState({ canRefreshResolve: !this.state.canRefreshResolve });
-  },
+  }
 
-  render: function () {
+  render () {
     var { listLen, hasMore, initializing, refreshedAt, canRefreshResolve } = this.state;
     var { refresh, loadMore, toggleCanRefresh } = this;
     var list = [];
@@ -65,21 +67,29 @@ var App = React.createClass({
         );
       }
     }
-
     return (
       <div className="view">
         <h1>react-touch-loader {refreshedAt.toString().substr(7)}</h1>
 
-        <Tloader className="main" onRefresh={refresh} onLoadMore={loadMore} hasMore={hasMore} initializing={initializing}>
+        <Tloader className="main"
+          onRefresh={(resolve, reject) => this.refresh(resolve, reject)}
+          onLoadMore={(resolve) => this.loadMore(resolve)}
+          hasMore={hasMore}
+          initializing={initializing}>
           <ul>{list}</ul>
         </Tloader>
 
         <h2>
           <a href="https://github.com/Broltes/react-touch-loader">view source</a>
-          <labe>can refresh resolve<input onChange={toggleCanRefresh} type="checkbox" checked={canRefreshResolve} /></labe>
+          <label>
+            can refresh resolve
+            <input type="checkbox"
+              checked={canRefreshResolve}
+              onChange={(e) => this.toggleCanRefresh(e)} />
+          </label>
         </h2>
       </div>
     );
   }
-});
+}
 render(<App />, document.getElementById('app'));
