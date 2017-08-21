@@ -149,7 +149,7 @@ class Tloader extends React.Component {
 
     var footer = hasMore ? (
       <div className="tloader-footer">
-        <div className="tloader-btn" onClick={this.loadMore} />
+        <div className="tloader-btn" onClick={this.loadMore.bind(this)} />
         <div className="tloader-loading"><i className="ui-loading" /></div>
       </div>
     ) : null;
