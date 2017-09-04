@@ -136,20 +136,12 @@ class Tloader extends React.Component {
     this.setState(newState);
   }
   render() {
-    const {
-            className,
-      hasMore,
-      initializing
-        } = this.props;
-    const {
-            loaderState,
-      pullHeight,
-      progressed
-        } = this.state;
+    const { className, hasMore, initializing } = this.props;
+    const { loaderState, pullHeight, progressed } = this.state;
 
     var footer = hasMore ? (
       <div className="tloader-footer">
-        <div className="tloader-btn" onClick={this.loadMore.bind(this)} />
+        <div className="tloader-btn" onClick={e => this.loadMore(e)} />
         <div className="tloader-loading"><i className="ui-loading" /></div>
       </div>
     ) : null;
