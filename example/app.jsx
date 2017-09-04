@@ -1,6 +1,7 @@
-import React from 'react';
-import { render } from 'react-dom';
-import './app.less';
+import 'babel-polyfill'
+import React from 'react'
+import { render } from 'react-dom'
+import './app.less'
 
 import Tloader from 'react-touch-loader';
 
@@ -16,7 +17,7 @@ class App extends React.Component {
     }
   }
 
-  refresh (resolve, reject) {
+  refresh(resolve, reject) {
     setTimeout(() => {
       if (!this.state.canRefreshResolve) return reject();
 
@@ -28,7 +29,7 @@ class App extends React.Component {
       resolve();
     }, 2e3);
   }
-  loadMore (resolve) {
+  loadMore(resolve) {
     setTimeout(() => {
       var l = this.state.listLen + 9;
 
@@ -40,7 +41,7 @@ class App extends React.Component {
       resolve();
     }, 2e3);
   }
-  componentDidMount () {
+  componentDidMount() {
     setTimeout(() => {
       this.setState({
         listLen: 9,
@@ -49,11 +50,11 @@ class App extends React.Component {
       });
     }, 2e3);
   }
-  toggleCanRefresh () {
+  toggleCanRefresh() {
     this.setState({ canRefreshResolve: !this.state.canRefreshResolve });
   }
 
-  render () {
+  render() {
     var { listLen, hasMore, initializing, refreshedAt, canRefreshResolve } = this.state;
     var { refresh, loadMore, toggleCanRefresh } = this;
     var list = [];

@@ -3,12 +3,13 @@
   "version": "1.1.1",
   "description": "React component for web pull to refresh and load more, 下拉刷新, 加载更多",
   "main": "./lib/react-touch-loader.js",
+  "DIST": "demo",
   "scripts": {
-    "dev": "webpack-dev-server --hot --config webpack.dev.config.js",
-    "demos": "webpack -p --optimize-dedupe --progress --config webpack.demos.config.js",
-    "clean:demos": "rm -rf ../github.io/tloader",
+    "dev": "webpack-dev-server --hot --config build/webpack.dev.conf.js",
+    "build": "webpack -p --optimize-dedupe --progress --config build/webpack.prod.conf.js",
+    "deploy": "bash build/deploy.sh",
     "clean:lib": "rm -rf lib/",
-    "build": "babel src --out-dir lib && cp src/*.less lib/",
+    "release": "babel src --out-dir lib && cp src/*.less lib/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
