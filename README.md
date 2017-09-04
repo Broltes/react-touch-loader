@@ -1,8 +1,7 @@
 # react-touch-loader
 React component for web pull to refresh and load more, 下拉刷新, 加载更多
 
-## Live demo
-[https://broltes.github.io/tloader](https://broltes.github.io/tloader)
+## [Live demo](http://broltes.github.io/react-touch-loader/)
 
 ## Usage
 `npm install react-touch-loader`
@@ -103,4 +102,4 @@ So you can easily overwrite the defaults by css like this:
 ```
 
 ## Example
-[check code from demos/app.jsx](https://github.com/Broltes/react-touch-loader/blob/master/demos/app.jsx)
+[check code from example/app.jsx](https://github.com/Broltes/react-touch-loader/blob/master/example/app.jsx)
