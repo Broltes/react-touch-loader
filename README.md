@@ -41,7 +41,7 @@ You'd better set a className for Tloader, then give it a height make it as scrol
 - 2: progress to end
 
 #### onRefresh
-- function (resove, reject)
+- function (resolve, reject)
 - undefined: disable the pull to refresh action
 
 #### hasMore
@@ -49,7 +49,7 @@ You'd better set a className for Tloader, then give it a height make it as scrol
 - true: show the load more footer
 
 #### onLoadMore
-- function (resove)
+- function (resolve)
 
 #### autoLoadMore
 - true: automaticly load more on scroll to bottom, default
