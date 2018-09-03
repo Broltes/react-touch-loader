@@ -30,14 +30,7 @@ module.exports = {
         use: ['babel-loader'],
       },
       {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-        ],
-      },
-      {
-        test: /\.less$/,
+        test: /\.(css|less)$/,
         use: [
           'style-loader',
           'css-loader',
