@@ -10,7 +10,7 @@
     "dev": "webpack-dev-server --open --config build/webpack.dev.js",
     "build": "webpack --config build/webpack.prod.js",
     "deploy": "bash build/deploy.sh",
-    "build:release": "babel src -d dist --copy-files",
+    "build:release": "BABEL_ENV=production babel src -d dist --copy-files",
     "release": "bash build/release.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
