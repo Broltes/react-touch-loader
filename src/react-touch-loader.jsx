@@ -1,10 +1,6 @@
 import React from 'react';
 
-if (process.env.NODE_ENV) {
-  require('./style.less');
-} else {
-  require('./style.css');
-}
+require('./style.less');
 
 const STATS = {
   init: '',

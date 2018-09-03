@@ -1,0 +1,267 @@
+@bg-dark: #EFEFF4;
+@progress-color: #08BF06;
+
+@height: 3rem;
+@fontSize: 11px;
+@fontColor: darken(@bg-dark, 40%);// state hint
+@btnColor: darken(@bg-dark, 60%);// load more
+
+@pullingMsg: '下拉刷新';
+@pullingEnoughMsg: '松开刷新';
+@refreshingMsg: '正在刷新...';
+@refreshedMsg: '刷新成功';
+@loadingMsg: '正在加载...';
+@btnLoadMore: '点击加载更多';
+@transition-duration: .2s;
+
+.tloader-msg:after{
+    content: @pullingMsg;
+
+    .state-pulling.enough &{
+        content: @pullingEnoughMsg;
+    }
+
+    .state-refreshed &{
+        content: @refreshedMsg;
+    }
+}
+.tloader-loading:after{
+    content: @loadingMsg;
+
+    .tloader-symbol &{
+        content: @refreshingMsg;
+    }
+}
+.tloader-btn:after{
+    content: @btnLoadMore;
+}
+
+
+.tloader{
+    position: relative;
+
+    &.state-pulling{
+        overflow-y: hidden;// 拖拽时临时阻止ios的overscroll
+    }
+}
+
+// pull to refresh
+.tloader-symbol{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+	color: @fontColor;
+	text-align: center;
+	height: @height;
+    overflow: hidden;
+
+    // 隐藏刷新提示标签
+    .state- &, .state-reset &{
+        height: 0;
+    }
+    // 延迟至reset完成，隐藏刷新提示标签
+    .state-reset &{
+        transition: height 0s @transition-duration;
+    }
+
+    // hide when loading more
+    .state-loading &{
+        display: none;
+    }
+}
+
+// 拖拽提示信息
+.tloader-msg{
+    line-height: @height;
+    font-size: @fontSize;
+
+    i{
+        // arrow down icon
+        .state-pulling &, .state-reset &{
+            display: inline-block;
+            font-size: 2em;
+            margin-right: .6em;
+            vertical-align: middle;
+            height: 1em;
+            border-left: 1px solid;
+            position: relative;
+            transition: transform .3s ease;
+
+            &:before, &:after{
+                content: '';
+                position: absolute;
+                font-size: .5em;
+                width: 1em;
+                bottom: 0px;
+                border-top: 1px solid;
+            }
+            &:before{
+                right: 1px;
+                transform: rotate(50deg);
+                transform-origin: right;
+            }
+            &:after{
+                left: 0px;
+                transform: rotate(-50deg);
+                transform-origin: left;
+            }
+        }
+
+        // arrow up
+        .state-pulling.enough &{
+            transform: rotate(180deg);
+        }
+    }
+
+    // 刷新中，隐藏提示信息 以切换至loading动画
+    .state-refreshing &{
+        height: 0;
+        opacity: 0;
+    }
+    // 刷新成功提示消息
+    .state-refreshed &{
+        opacity: 1;
+        transition: opacity 1s;
+
+        // √ icon
+        i{
+            display: inline-block;
+            box-sizing: content-box;
+            vertical-align: middle;
+            margin-right: 10px;
+            font-size: 20px;
+            height: 1em;
+            width: 1em;
+            border: 1px solid;
+            border-radius: 100%;
+            position: relative;
+
+            &:before{
+                content: '';
+                position: absolute;
+                top: 3px;
+                left: 7px;
+                height: 11px;
+                width: 5px;
+                border: solid;
+                border-width: 0 1px 1px 0;
+                transform: rotate(40deg);
+            }
+        }
+    }
+}
+
+.tloader-body{
+    // active the scrollbar of ios
+    margin-top: -1px;
+    padding-top: 1px;
+
+    .state-refreshing &{
+        transform: translate3d(0,@height,0);
+        transition: transform @transition-duration;
+    }
+
+    .state-refreshed &{
+        // handle resolve within .3s
+        animation: refreshed @transition-duration*2;
+    }
+
+    .state-reset &{
+        transition: transform @transition-duration;
+    }
+}
+@keyframes refreshed {
+    0%{transform: translate3d(0,@height,0);}
+    50%{transform: translate3d(0,@height,0);}
+}
+
+// touch to load more
+.tloader-footer{
+    .state-refreshing &{
+        display: none;
+    }
+
+    .tloader-btn{
+        color: @btnColor;
+        font-size: .9em;
+        text-align: center;
+        line-height: 3rem;
+
+        .state-loading &{
+            display: none;
+        }
+    }
+}
+
+.tloader-loading{
+    display: none;
+    text-align: center;
+    line-height: @height;
+    font-size: @fontSize;
+    color: @fontColor;
+
+    .ui-loading{
+        font-size: 20px;
+        margin-right: .6rem;
+    }
+
+    .state-refreshing .tloader-symbol &, .state-loading .tloader-footer &{
+        display: block;
+    }
+}
+
+// loading效果
+@keyframes circle {
+    100% { transform: rotate(360deg); }
+}
+.ui-loading{
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1.5rem;
+    width: 1em;
+    height: 1em;
+    border: 2px solid darken(@bg-dark, 30%);
+    border-top-color: #fff;
+    border-radius: 100%;
+    animation: circle .8s infinite linear;
+
+    #ui-waiting &{
+        border: 2px solid #fff;
+        border-top-color: darken(@bg-dark, 30%);
+    }
+}
+
+// 进度条加载效果
+@keyframes tloader-progressing {
+    0% { width: 0; }
+    10%{ width: 40%; }
+    20%{ width: 75%; }
+    30%{ width: 95%; }
+}
+@keyframes tloader-progressed {
+    0% {
+        opacity: 1;
+    }
+}
+.tloader-progress {
+    position: relative;
+
+    &:before{
+        content: "";
+        z-index: 1000;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 2px;
+        background-color: @progress-color;
+        width: 99%;
+        animation: tloader-progressing 9s ease-out;
+
+        .ed&{
+            opacity: 0;
+            width: 100%;
+            animation: tloader-progressed 1s;
+        }
+    }
+}
