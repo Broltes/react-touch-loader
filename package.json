@@ -1,6 +1,6 @@
 {
   "name": "react-touch-loader",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "React component for web pull to refresh and load more, 下拉刷新, 加载更多",
   "main": "./dist/react-touch-loader.js",
   "config": {
