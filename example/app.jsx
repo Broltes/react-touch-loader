@@ -89,7 +89,6 @@ class App extends React.Component {
           onLoadMore={this.loadMore}
           hasMore={hasMore}
           initializing={initializing}
-          useBody
         >
           <ul>{list}</ul>
         </Tloader>
