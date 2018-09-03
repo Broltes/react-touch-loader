@@ -1,0 +1,75 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Helvetica Neue", Helvetica, "STHeitiSC-Light",
+    "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+  text-align: center;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+:focus {
+  outline: none;
+}
+:not(input):not(textarea):not([contenteditable]) {
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+html {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  overflow: hidden;
+  background-color: #efeff4;
+  display: flex;
+  flex-direction: column;
+
+  // header, footer
+  h1,
+  .footer {
+    margin: 0;
+    background-color: #333;
+    color: #eee;
+    font-size: 1em;
+    line-height: 3;
+
+    a {
+      color: inherit;
+      margin: 0 1em;
+    }
+  }
+
+  .main {
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch; // enhance ios scrolling
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        background-color: #fff;
+        border-bottom: 1px solid #ccc;
+
+        p {
+          margin: 0;
+          line-height: 3em;
+        }
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
-import 'babel-polyfill'
-import React from 'react'
-import { render } from 'react-dom'
-import './app.less'
+import 'babel-polyfill';
+import React from 'react';
+import { hot } from 'react-hot-loader';
+import './style.less';
 
 import Tloader from 'react-touch-loader';
 
@@ -13,34 +13,10 @@ class App extends React.Component {
       listLen: 0,
       hasMore: 0,
       initializing: 1,
-      refreshedAt: Date.now()
-    }
+      refreshedAt: Date.now(),
+    };
   }
 
-  refresh(resolve, reject) {
-    setTimeout(() => {
-      if (!this.state.canRefreshResolve) return reject();
-
-      this.setState({
-        listLen: 9,
-        hasMore: 1,
-        refreshedAt: Date.now()
-      });
-      resolve();
-    }, 2e3);
-  }
-  loadMore(resolve) {
-    setTimeout(() => {
-      var l = this.state.listLen + 9;
-
-      this.setState({
-        listLen: l,
-        hasMore: l > 0 && l < 50
-      });
-
-      resolve();
-    }, 2e3);
-  }
   componentDidMount() {
     setTimeout(() => {
       this.setState({
@@ -50,47 +26,88 @@ class App extends React.Component {
       });
     }, 2e3);
   }
-  toggleCanRefresh() {
-    this.setState({ canRefreshResolve: !this.state.canRefreshResolve });
+
+  refresh = (resolve, reject) => {
+    setTimeout(() => {
+      const { canRefreshResolve } = this.state;
+      if (!canRefreshResolve) reject();
+      else {
+        this.setState({
+          listLen: 9,
+          hasMore: 1,
+          refreshedAt: Date.now(),
+        });
+
+        resolve();
+      }
+    }, 2e3);
+  }
+
+  loadMore = (resolve) => {
+    setTimeout(() => {
+      const { listLen } = this.state;
+      const l = listLen + 9;
+
+      this.setState({
+        listLen: l,
+        hasMore: l > 0 && l < 50,
+      });
+
+      resolve();
+    }, 2e3);
+  }
+
+
+  toggleCanRefresh = () => {
+    const { canRefreshResolve } = this.state;
+
+    this.setState({ canRefreshResolve: !canRefreshResolve });
   }
 
   render() {
-    var { listLen, hasMore, initializing, refreshedAt, canRefreshResolve } = this.state;
-    var { refresh, loadMore, toggleCanRefresh } = this;
-    var list = [];
+    const {
+      listLen, hasMore, initializing, refreshedAt, canRefreshResolve,
+    } = this.state;
+    const list = [];
 
     if (listLen) {
-      for (var i = 0; i < listLen; i++) {
-        list.push(
+      for (let i = 0; i < listLen; i++) {
+        list.push((
           <li key={i}>
             <p>{i}</p>
           </li>
-        );
+        ));
       }
     }
     return (
       <div className="view">
         <h1>react-touch-loader {refreshedAt.toString().substr(7)}</h1>
 
-        <Tloader className="main"
-          onRefresh={(resolve, reject) => this.refresh(resolve, reject)}
-          onLoadMore={(resolve) => this.loadMore(resolve)}
+        <Tloader
+          className="main"
+          onRefresh={this.refresh}
+          onLoadMore={this.loadMore}
           hasMore={hasMore}
-          initializing={initializing}>
+          initializing={initializing}
+          useBody
+        >
           <ul>{list}</ul>
         </Tloader>
 
-        <h2>
+        <div className="footer">
           <a href="https://github.com/Broltes/react-touch-loader">view source</a>
           <label>
             can refresh resolve
-            <input type="checkbox"
+            <input
+              type="checkbox"
               checked={canRefreshResolve}
-              onChange={(e) => this.toggleCanRefresh(e)} />
+              onChange={this.toggleCanRefresh}
+            />
           </label>
-        </h2>
+        </div>
       </div>
     );
   }
 }
-render(<App />, document.getElementById('app'));
+
+export default hot(module)(App);

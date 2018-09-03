@@ -1,5 +1,5 @@
 set -e
-DIST=$(node -p -e "require('./package.json').DIST")
+DIST=$(node -p -e "require('./package.json').config.dist")
 
 # clean
 rm -rf $DIST

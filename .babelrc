@@ -1,4 +1,13 @@
 {
-    "presets": ["react", "es2015"],
-    "plugins": ["transform-object-assign"]
+  "presets": [
+    "react",
+    ["env", {
+      "useBuiltIns": true
+    }],
+    "stage-0"
+  ],
+  "plugins": [
+    "react-hot-loader/babel",
+    "transform-decorators-legacy"
+  ]
 }
