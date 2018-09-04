@@ -23,5 +23,6 @@ module.exports = {
     'react/prop-types': 0,
     'react/destructuring-assignment': 0,
     'react/jsx-one-expression-per-line': 0,
+    'react/no-access-state-in-setstate': 0,
   }
 };

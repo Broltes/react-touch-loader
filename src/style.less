@@ -2,7 +2,6 @@
 @progress-color: #08bf06;
 
 @height: 48px;
-@fontSize: 12px;
 @fontColor: darken(@bg-dark, 40%); // state hint
 @btnColor: darken(@bg-dark, 60%); // load more
 
@@ -38,10 +37,11 @@
 
 .tloader {
   position: relative;
+  font-size: 14px;
+}
 
-  &.state-pulling {
-    overflow-y: hidden; // 拖拽时临时阻止ios的overscroll
-  }
+.state-pulling {
+  overflow-y: hidden !important; // 拖拽时临时阻止ios的overscroll
 }
 
 // pull to refresh
@@ -74,7 +74,6 @@
 // 拖拽提示信息
 .tloader-msg {
   line-height: @height;
-  font-size: @fontSize;
 
   i {
     // arrow down icon
@@ -190,7 +189,6 @@
 
   .tloader-btn {
     color: @btnColor;
-    font-size: 0.9em;
     text-align: center;
     line-height:  @height;
 
@@ -204,7 +202,6 @@
   display: none;
   text-align: center;
   line-height: @height;
-  font-size: @fontSize;
   color: @fontColor;
 
   .ui-loading {
