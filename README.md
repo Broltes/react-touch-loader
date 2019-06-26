@@ -1,7 +1,7 @@
 # react-touch-loader
 React component for web pull to refresh and load more, 下拉刷新, 加载更多
 
-## [Live demo](http://broltes.github.io/react-touch-loader/)
+## [Live demo](https://broltes.github.io/react-touch-loader/)
 
 ## Usage
 `npm install react-touch-loader`
